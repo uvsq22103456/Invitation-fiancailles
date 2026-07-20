@@ -1,0 +1,11 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Samia et Quincy//Mariage//FR
+BEGIN:VEVENT
+SUMMARY:Mariage de Samia & Quincy
+DTSTART;TZID=Europe/Paris:20261111T113000
+DTEND;TZID=Europe/Paris:20261111T190000
+LOCATION:L'Orangerie du Moulin, 1 Moulin de Gros Lot, 77620 Bransles
+DESCRIPTION:Célébration du mariage religieux de Samia et Quincy !
+END:VEVENT
+END:VCALENDAR
