@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Samia & Quincy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #FCFAEF;
+            --text-dark: #333333;
+            --text-light: #777777;
+            --gold: #C2A878;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-dark); 
+            overflow: hidden; 
+            height: 100vh;
+        }
+
+        h1, h2, h3, .serif-text { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        /* =========================================
+           1. L'EFFET VIDÉO (RIDEAUX)
+           ========================================= */
+        #door-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 1s ease; /* Fondu à la fin de la vidéo */
+        }
+
+        #door-overlay.open {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #intro-video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; /* Remplit l'écran */
+            object-position: center center; /* FORCE LE CENTRAGE DU RIDEAU */
+            z-index: 5;
+        }
+
+        /* Le petit bouton clignotant */
+        .door-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
+            color: #555; padding: 12px 25px; border-radius: 30px;
+            font-size: 0.85rem; letter-spacing: 1px;
+            z-index: 20; cursor: pointer;
+            animation: pulse 2s infinite; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        /* =========================================
+           2. LE SITE (IDENTIQUE À AVANT)
+           ========================================= */
+        #main-content { opacity: 0; transition: opacity 1.5s ease-in; padding-bottom: 80px; text-align: center; }
+        section { padding: 50px 20px; }
+        .section-title { font-size: 1.8rem; color: var(--text-dark); margin-bottom: 30px; letter-spacing: 1px; }
+        .divider { color: var(--gold); font-size: 1.2rem; margin: 20px 0; }
+
+        .hero-img {
+            width: 100%; height: 350px; object-fit: cover; border-radius: 0 0 20px 20px;
+            background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+        }
+        .couple-names { font-size: 3rem; color: var(--gold); margin: 20px 0 10px 0; }
+        .date-box { margin-top: 20px; }
+        .date-box h3 { font-size: 1.2rem; margin-bottom: 5px; }
+        .date-box p { font-size: 1.5rem; color: var(--gold); letter-spacing: 2px; }
+
+        .btn-outline {
+            display: inline-block; padding: 12px 20px; border: 1px solid var(--text-light);
+            border-radius: 25px; color: var(--text-dark); text-decoration: none;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin: 5px; background: transparent;
+        }
+
+        .countdown-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .time-box { text-align: center; }
+        .time-box span { font-size: 2rem; font-family: 'Playfair Display', serif; color: var(--gold); display: block; }
+        .time-box p { font-size: 0.7rem; text-transform: uppercase; color: var(--text-light); }
+
+        .map-img {
+            width: 100%; height: 200px; border-radius: 15px; margin-bottom: 15px;
+            background: url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+        }
+
+        .program-list { text-align: left; max-width: 400px; margin: 0 auto; }
+        .program-item { display: flex; margin-bottom: 25px; }
+        .program-time { font-weight: 500; margin-right: 20px; color: var(--gold); }
+        .program-detail h4 { font-size: 1rem; margin-bottom: 3px; }
+        .program-detail p { font-size: 0.85rem; color: var(--text-light); }
+
+        .menu-section { background-color: #fff; border-radius: 15px; padding: 40px 20px; margin: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .menu-course { margin-bottom: 30px; }
+        .menu-course h4 { font-size: 1rem; text-transform: uppercase; color: var(--gold); letter-spacing: 2px; margin-bottom: 15px; }
+        .menu-course p { font-size: 0.9rem; margin-bottom: 8px; font-style: italic; }
+
+        .btn-submit {
+            background-color: var(--text-dark); color: #fff; width: 100%; padding: 15px;
+            border: none; border-radius: 25px; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="door-overlay">
+        <video id="intro-video" playsinline muted preload="auto">
+            <source src="videogemini.mp4#t=0.1" type="video/mp4">
+        </video>
+        <div class="door-btn" onclick="openInvitation()">Appuyez pour ouvrir</div>
+    </div>
+
+    <div id="main-content">
+        
+        <div class="hero-img"></div>
+        <section>
+            
+            <h1 class="couple-names">Samia & Quincy</h1>
+            <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Vous invitent à célébrer leur mariage religieux</p>
+            
+            <div class="date-box">
+                <h3 class="serif-text">Mercredi 11 Novembre</h3>
+                <p class="serif-text">2026</p>
+            </div>
+
+            <div style="margin-top: 25px;">
+                <a href="mariage.ics" class="btn-outline">📅 Calendrier Apple</a>
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mariage+de+Samia+%26+Quincy&dates=20261111T113000/20261111T190000&details=Nous+avons+hâte+de+célébrer+ce+moment+avec+vous+!&location=Domaine+du+Château,+123+Route+des+Étoiles,+75000+Paris" 
+   target="_blank" 
+   class="btn-outline">
+   📅 Calendrier Google
+</a>
+            </div>
+        </section>
+
+        <div class="divider">♡</div>
+
+        <section>
+            <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">L'attente touche à sa fin</p>
+            <div class="countdown-container">
+                <div class="time-box"><span id="days">0</span><p>Jours</p></div>
+                <div class="time-box"><span id="hours">0</span><p>Heures</p></div>
+                <div class="time-box"><span id="minutes">0</span><p>Min</p></div>
+            </div>
+        </section>
+
+        <div class="divider">♡</div>
+
+        <section>
+            <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Lieu de la célébration</p>
+            <h2 class="serif-text" style="font-size: 2rem; color: var(--gold); margin-bottom: 10px;">L'Orangerie du Moulin</h2>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;">1 Moulin de Gros Lot<br>77620 Bransles</p>
+            
+            <div class="map-img"></div>
+            
+            <div style="margin-top: 15px;">
+                <a href="https://www.google.com/maps/search/?api=1&query=L'Orangerie+du+Moulin,+1+Moulin+de+Gros+Lot,+77620+Bransles" target="_blank" class="btn-outline">📍 Google Maps</a>
+                <a href="https://waze.com/ul?q=Orangerie+du+Moulin+Bransles&navigate=yes" target="_blank" class="btn-outline">🚙 Waze</a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title serif-text">Le Déroulé</h2>
+            <div style="background-color: rgba(194, 168, 120, 0.1); padding: 25px; border-radius: 10px; margin: 0 10px;">
+                <h3 class="serif-text" style="font-size: 1.5rem; color: var(--gold); margin-bottom: 15px;">Rendez-vous à 11h00 ! ⏰</h3>
+                <p style="font-size: 0.95rem; color: var(--text-dark); margin: 0; line-height: 1.5;">
+                    On vous attend à <strong>11h00 tapantes</strong> à L'Orangerie du Moulin pour bien démarrer la journée. <br><br>
+                    On vous accueillera avec un joli buffet de bienvenue et des rafraîchissements, avant de passer au repas et aux animations. 
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title serif-text">Dress Code</h2>
+            <h3 class="serif-text" style="font-size: 1.5rem; color: var(--gold); margin-bottom: 20px;">Faites-vous beaux !</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
+                Mettez juste votre meilleure tenue pour célébrer ce moment avec nous. Soyez vous-mêmes ! ✨
+            </p>
+            
+            <div style="background-color: rgba(194, 168, 120, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid var(--gold); text-align: left;">
+                <p style="font-size: 0.85rem; color: var(--text-dark); margin: 0; line-height: 1.4;">
+                    ❄️ <strong>Petit tips :</strong> Prenez un manteau pour l'arrivée (ça reste le mois de novembre !). À l'intérieur, l'Orangerie sera chauffée.
+                </p>
+            </div>
+        </section>
+
+        <section style="background-color: #fff; padding: 50px 20px;">
+            <div class="divider" style="margin-top: 0;">💌</div>
+            <h2 class="serif-text" style="font-size: 1.8rem; margin-bottom: 10px;">Votre réponse compte pour nous.</h2>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 30px;">Merci de confirmer avant le 1er Septembre 2026.</p>
+            
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScch0vJuzjJt0vIQQucVMWa_HbLeN7feAC3A5z6WQbBwhRWXg/viewform?usp=header" target="_blank" class="btn-submit" style="text-decoration:none; display:inline-block; text-align:center;">
+                Confirmer ma présence
+            </a>
+        </section>
+
+    </div>
+
+    <script>
+
+        // =========================================
+        // 1. LE COMPTEUR (Démarre dès le chargement)
+        // =========================================
+        const countDownDate = new Date("Nov 11, 2026 11:30:00").getTime();
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            // Met à jour les chiffres si les éléments existent
+            if(document.getElementById("days")) {
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+            }
+
+            if (distance < 0) {
+                clearInterval(x);
+                if(document.querySelector(".countdown-container")) {
+                    document.querySelector(".countdown-container").innerHTML = "<p style='font-size: 1.5rem; font-family: Playfair Display, serif; color: var(--gold);'>C'est le grand jour ! 🎉</p>";
+                }
+            }
+        }, 1000);
+        function openInvitation() {
+            const overlay = document.getElementById('door-overlay');
+            const mainContent = document.getElementById('main-content');
+            const video = document.getElementById('intro-video');
+            const btn = document.querySelector('.door-btn');
+            
+            // 1. On cache le bouton
+            btn.style.opacity = '0';
+            btn.style.pointerEvents = 'none'; // Empêche de recliquer dessus
+            
+            // 2. On lance la vidéo
+            video.play();
+            
+            // 3. Quand la vidéo se termine, on dévoile le site
+            video.onended = function() {
+                overlay.classList.add('open');
+                mainContent.style.opacity = '1';
+                
+                // On réactive le défilement de la page
+                document.body.style.overflow = 'auto';
+                document.body.style.height = 'auto';
+                
+            };
+        }
+    </script>
+</body>
+</html>
